@@ -149,6 +149,13 @@ export type NavItem = {
   icon: string;
 };
 
+export type NavSection = {
+  label: string;
+  icon: string;
+  href?: string; // optional direct link (for top-level items like Home)
+  children?: NavItem[];
+};
+
 // --- Dashboard Stats ---
 export type StatCardData = {
   title: string;

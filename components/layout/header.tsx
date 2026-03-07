@@ -4,7 +4,21 @@ import React from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, Bell, Search } from 'lucide-react';
-import { NAV_ITEMS, HEADER_HEIGHT } from '@/lib/constants';
+import { NAV_SECTIONS, HEADER_HEIGHT } from '@/lib/constants';
+
+function getPageTitle(pathname: string): string {
+    for (const section of NAV_SECTIONS) {
+        if (section.href === pathname) return section.label;
+        if (section.children) {
+            for (const item of section.children) {
+                if (pathname === item.href || pathname.startsWith(item.href + '/')) {
+                    return `${section.label} — ${item.label}`;
+                }
+            }
+        }
+    }
+    return 'Home';
+}
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -14,8 +28,7 @@ interface HeaderProps {
 
 export function Header({ onMenuClick, sidebarWidth, isMobile }: HeaderProps) {
     const pathname = usePathname();
-    const currentPage = NAV_ITEMS.find((item) => item.href === pathname);
-    const pageTitle = currentPage?.label || 'Dashboard';
+    const pageTitle = getPageTitle(pathname);
 
     return (
         <header
