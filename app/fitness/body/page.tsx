@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Scale, Ruler, HeartPulse, TrendingDown } from 'lucide-react';
+import InteractiveMuscleMap from '@/components/fitness/interactive-muscle-map';
 
 const bodyMetrics = [
     { label: 'Weight', value: '78.5', unit: 'kg', change: -0.3, icon: Scale, color: '#F59E0B' },
@@ -47,6 +48,9 @@ export default function BodyPage() {
                     );
                 })}
             </div>
+
+            {/* Interactive Muscle Map */}
+            <InteractiveMuscleMap />
 
             {/* Measurements table */}
             <div className="rounded-xl border border-[#222] bg-[#111] p-6">
