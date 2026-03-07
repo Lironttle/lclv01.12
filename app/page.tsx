@@ -1,95 +1,76 @@
 'use client';
 
 import React from 'react';
-import { StatsCard } from '@/components/dashboard/stats-card';
-import { LeadFunnelChart } from '@/components/dashboard/lead-funnel-chart';
-import { PipelineStatus } from '@/components/dashboard/pipeline-status';
-import { TodayTasks } from '@/components/dashboard/today-tasks';
-import { RecentOutreach } from '@/components/dashboard/recent-outreach';
-import { mockLeads, mockClients, mockTasks } from '@/lib/mock-data';
+import Link from 'next/link';
+import { Activity, Zap, ArrowRight } from 'lucide-react';
 
-// Compute live stats from mock data
-const totalLeads = mockLeads.length;
-const activeClients = mockClients.filter((c) => c.status === 'active' || c.status === 'onboarding').length;
-const activeTasks = mockTasks.filter((t) => t.status !== 'done').length;
-const monthlyRevenue = mockClients.reduce((sum, c) => sum + c.mrr, 0);
-
-function formatCurrency(val: number): string {
-  if (val >= 1000) {
-    return `$${(val / 1000).toFixed(1)}K`;
-  }
-  return `$${val}`;
-}
-
-const stats = [
-  {
-    title: 'Total Leads',
-    value: totalLeads.toString(),
-    change: 12.5,
-    trend: 'up' as const,
-    icon: 'Users',
-  },
-  {
-    title: 'Active Tasks',
-    value: activeTasks.toString(),
-    change: -3.2,
-    trend: 'down' as const,
-    icon: 'CheckSquare',
-  },
-  {
-    title: 'Active Clients',
-    value: activeClients.toString(),
-    change: 20.0,
-    trend: 'up' as const,
-    icon: 'Building2',
-  },
-  {
-    title: 'Monthly Revenue',
-    value: formatCurrency(monthlyRevenue),
-    change: 5.3,
-    trend: 'up' as const,
-    icon: 'DollarSign',
-  },
+const sections = [
+    {
+        title: 'Fitness & Health',
+        description: 'Track your nutrition, exercise routines, and body metrics all in one place.',
+        href: '/fitness/dashboard',
+        icon: Activity,
+        color: '#22C55E',
+        bgColor: 'rgba(34, 197, 94, 0.1)',
+        borderColor: 'rgba(34, 197, 94, 0.3)',
+    },
+    {
+        title: 'LCL Automation',
+        description: 'Manage leads, tasks, pipeline, outreach, contacts, clients, and analytics.',
+        href: '/lcl-automation',
+        icon: Zap,
+        color: '#b91c1c',
+        bgColor: 'rgba(115, 4, 4, 0.15)',
+        borderColor: 'rgba(115, 4, 4, 0.4)',
+    },
 ];
 
-export default function DashboardPage() {
-  return (
-    <div className="animate-fade-in space-y-6">
-      {/* Stats Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, i) => (
-          <div key={stat.title} className="animate-fade-in" style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'backwards' }}>
-            <StatsCard
-              title={stat.title}
-              value={stat.value}
-              change={stat.change}
-              trend={stat.trend}
-              icon={stat.icon}
-              index={i}
-            />
-          </div>
-        ))}
-      </div>
+export default function HomePage() {
+    return (
+        <div className="animate-fade-in flex flex-col items-center justify-center min-h-[60vh] gap-8 px-4">
+            <div className="text-center space-y-3 max-w-lg">
+                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                    Welcome to LCL Portal
+                </h1>
+                <p className="text-[#a3a3a3] text-base md:text-lg">
+                    Choose a section to get started.
+                </p>
+            </div>
 
-      {/* Row 1: Funnel Chart (60%) | Pipeline Status (40%) */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        <div className="lg:col-span-3 animate-fade-in" style={{ animationDelay: '300ms', animationFillMode: 'backwards' }}>
-          <LeadFunnelChart />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
+                {sections.map((section) => {
+                    const Icon = section.icon;
+                    return (
+                        <Link
+                            key={section.href}
+                            href={section.href}
+                            className="group relative rounded-xl border p-6 transition-all duration-300 hover:scale-[1.02]"
+                            style={{
+                                backgroundColor: section.bgColor,
+                                borderColor: section.borderColor,
+                            }}
+                        >
+                            <div className="flex flex-col gap-4">
+                                <div
+                                    className="w-12 h-12 rounded-lg flex items-center justify-center"
+                                    style={{ backgroundColor: section.bgColor }}
+                                >
+                                    <Icon className="w-6 h-6" style={{ color: section.color }} />
+                                </div>
+                                <div className="space-y-2">
+                                    <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                                        {section.title}
+                                        <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                    </h2>
+                                    <p className="text-sm text-[#a3a3a3] leading-relaxed">
+                                        {section.description}
+                                    </p>
+                                </div>
+                            </div>
+                        </Link>
+                    );
+                })}
+            </div>
         </div>
-        <div className="lg:col-span-2 animate-fade-in" style={{ animationDelay: '400ms', animationFillMode: 'backwards' }}>
-          <PipelineStatus />
-        </div>
-      </div>
-
-      {/* Row 2: Today Tasks (50%) | Recent Outreach (50%) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="animate-fade-in" style={{ animationDelay: '500ms', animationFillMode: 'backwards' }}>
-          <TodayTasks />
-        </div>
-        <div className="animate-fade-in" style={{ animationDelay: '600ms', animationFillMode: 'backwards' }}>
-          <RecentOutreach />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

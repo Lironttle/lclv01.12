@@ -2,19 +2,62 @@
 // LCL Portal - Constants
 // =============================================================================
 
-import type { NavItem } from './types';
+import type { NavItem, NavSection } from './types';
 
-// --- Navigation ---
+// --- Navigation (flat list kept for backwards compat) ---
 export const NAV_ITEMS: NavItem[] = [
-    { label: 'Dashboard', href: '/', icon: 'LayoutDashboard' },
-    { label: 'Leads', href: '/leads', icon: 'Users' },
-    { label: 'Tasks', href: '/tasks', icon: 'CheckSquare' },
-    { label: 'Pipeline', href: '/pipeline', icon: 'GitBranch' },
-    { label: 'Outreach', href: '/outreach', icon: 'MessageSquare' },
-    { label: 'Contacts', href: '/contacts', icon: 'Contact' },
-    { label: 'Clients', href: '/clients', icon: 'Building2' },
-    { label: 'Analytics', href: '/analytics', icon: 'BarChart3' },
+    { label: 'Home', href: '/', icon: 'Home' },
+    { label: 'Dashboard', href: '/fitness/dashboard', icon: 'Activity' },
+    { label: 'Nutrition', href: '/fitness/nutrition', icon: 'Apple' },
+    { label: 'Exercise', href: '/fitness/exercise', icon: 'Dumbbell' },
+    { label: 'Body', href: '/fitness/body', icon: 'HeartPulse' },
+    { label: 'Dashboard', href: '/lcl-automation', icon: 'LayoutDashboard' },
+    { label: 'Leads', href: '/lcl-automation/leads', icon: 'Users' },
+    { label: 'Tasks', href: '/lcl-automation/tasks', icon: 'CheckSquare' },
+    { label: 'Pipeline', href: '/lcl-automation/pipeline', icon: 'GitBranch' },
+    { label: 'Outreach', href: '/lcl-automation/outreach', icon: 'MessageSquare' },
+    { label: 'Contacts', href: '/lcl-automation/contacts', icon: 'Contact' },
+    { label: 'Clients', href: '/lcl-automation/clients', icon: 'Building2' },
+    { label: 'Analytics', href: '/lcl-automation/analytics', icon: 'BarChart3' },
     { label: 'Settings', href: '/settings', icon: 'Settings' },
+];
+
+// --- Sectioned Navigation ---
+export const NAV_SECTIONS: NavSection[] = [
+    {
+        label: 'Home',
+        icon: 'Home',
+        href: '/',
+    },
+    {
+        label: 'Fitness & Health',
+        icon: 'Activity',
+        children: [
+            { label: 'Dashboard', href: '/fitness/dashboard', icon: 'Activity' },
+            { label: 'Nutrition', href: '/fitness/nutrition', icon: 'Apple' },
+            { label: 'Exercise', href: '/fitness/exercise', icon: 'Dumbbell' },
+            { label: 'Body', href: '/fitness/body', icon: 'HeartPulse' },
+        ],
+    },
+    {
+        label: 'LCL Automation',
+        icon: 'Zap',
+        children: [
+            { label: 'Dashboard', href: '/lcl-automation', icon: 'LayoutDashboard' },
+            { label: 'Leads', href: '/lcl-automation/leads', icon: 'Users' },
+            { label: 'Tasks', href: '/lcl-automation/tasks', icon: 'CheckSquare' },
+            { label: 'Pipeline', href: '/lcl-automation/pipeline', icon: 'GitBranch' },
+            { label: 'Outreach', href: '/lcl-automation/outreach', icon: 'MessageSquare' },
+            { label: 'Contacts', href: '/lcl-automation/contacts', icon: 'Contact' },
+            { label: 'Clients', href: '/lcl-automation/clients', icon: 'Building2' },
+            { label: 'Analytics', href: '/lcl-automation/analytics', icon: 'BarChart3' },
+        ],
+    },
+    {
+        label: 'Settings',
+        icon: 'Settings',
+        href: '/settings',
+    },
 ];
 
 // --- Design Tokens ---
